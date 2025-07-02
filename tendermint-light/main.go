@@ -29,7 +29,7 @@ func main() {
 			tx.PrintPretty(txData) // 예쁘게 출력
 
 			// 여기에 후속 서명/검증 로직 추가 가능
-			// 예: msg := txData["result"].(map[string]interface{})["data"]
+			// 예: msg := txData["result"].(map[string]interface{})["data"] 수정
 		}
 	}()
 
