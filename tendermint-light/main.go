@@ -20,7 +20,17 @@ func main() {
 
 	// 트랜잭션 리스너를 별도 고루틴에서 실행
 	go func() {
-		tx.StartWebSocketClient()
+		tx.StartTxListener()
+	}()
+
+	// 트랜잭션 처리 루틴 추가
+	go func() {
+		for txData := range tx.TxChan {
+			tx.PrintPretty(txData) // 예쁘게 출력
+
+			// 여기에 후속 서명/검증 로직 추가 가능
+			// 예: msg := txData["result"].(map[string]interface{})["data"]
+		}
 	}()
 
 	// 최초 블록 기준 설정

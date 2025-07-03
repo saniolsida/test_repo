@@ -6,6 +6,6 @@ const (
 	KeyringBackend = "test"
 	DefaultFrom    = "alice"
 	FeeAmount      = "5000stake"
-	WebSocketRelay = "ws://localhost:8080/ws"
+	WSURL          = "ws://192.168.0.19:26657/websocket"
 	NodeRPC        = "http://192.168.0.19:26657"
 )
