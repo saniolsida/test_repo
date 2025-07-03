@@ -7,13 +7,12 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"tendermint-light/config"
 )
-
-const NodeRPC = "http://192.168.0.19:26657"
 
 // 가장 최신 블록의 높이 반환
 func FetchLatestHeight() int64 {
-	url := fmt.Sprintf("%s/status", NodeRPC)
+	url := fmt.Sprintf("%s/status", config.NodeRPC)
 	resp, err := http.Get(url)
 	if err != nil {
 		panic(err)
@@ -44,7 +43,7 @@ func FetchLatestHeight() int64 {
 
 // 커밋 정보를 가져온다 (신뢰 헤더용)
 func FetchCommit(height int64) CommitResponse {
-	url := fmt.Sprintf("%s/commit?height=%d", NodeRPC, height)
+	url := fmt.Sprintf("%s/commit?height=%d", config.NodeRPC, height)
 	resp, err := http.Get(url)
 	if err != nil {
 		panic(err)

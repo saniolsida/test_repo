@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"tendermint-light/config"
+
 	dbm "github.com/cometbft/cometbft-db"
 	tmlight "github.com/cometbft/cometbft/light"
 	provider "github.com/cometbft/cometbft/light/provider"
@@ -19,13 +21,13 @@ type Client struct {
 
 func NewLightClient(opts TrustOptions) (*Client, error) {
 	// provider 설정
-	primary, err := httpProvider.New("learning-chain-1", "http://192.168.0.19:26657")
+	primary, err := httpProvider.New(config.ChainID, config.NodeRPC)
 	if err != nil {
 		return nil, err
 	}
 
 	// witness provider 설정 (보통 primary와 동일하거나 다른 노드)
-	witness, err := httpProvider.New("learning-chain-1", "http://192.168.0.19:26657") // ✅ 또는 다른 피어 주소
+	witness, err := httpProvider.New(config.ChainID, config.NodeRPC) // ✅ 또는 다른 피어 주소
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +39,7 @@ func NewLightClient(opts TrustOptions) (*Client, error) {
 	// light client 생성
 	lc, err := tmlight.NewClient(
 		context.Background(),
-		"learning-chain-1",
+		config.ChainID,
 		opts,
 		primary,
 		[]provider.Provider{witness},
