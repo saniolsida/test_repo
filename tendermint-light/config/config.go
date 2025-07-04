@@ -6,6 +6,7 @@ const (
 	KeyringBackend = "test"
 	DefaultFrom    = "alice"
 	FeeAmount      = "5000stake"
-	WSURL          = "ws://192.168.0.19:26657/websocket"
+	KafkaBroker    = "localhost:9092"
+	KafkaBroker2   = "localhost:9192"
 	NodeRPC        = "http://192.168.0.19:26657"
 )

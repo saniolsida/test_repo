@@ -46,7 +46,7 @@ func StartTxListener() {
 	signal.Notify(interrupt, os.Interrupt)
 
 	// WebSocket 연결
-	conn, _, err := websocket.DefaultDialer.Dial(config.WSURL, nil)
+	conn, _, err := websocket.DefaultDialer.Dial(config.KafkaBroker, nil)
 	if err != nil {
 		log.Fatal("❌ WebSocket 연결 실패:", err)
 	}

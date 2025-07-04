@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"tendermint-light/light"
 	"tendermint-light/rpc"
-	"tendermint-light/tx"
+	// "tendermint-light/tx"
 )
 
 func main() {
@@ -18,25 +18,25 @@ func main() {
 
 	ctx := context.Background()
 
-	// 트랜잭션 리스너를 별도 고루틴에서 실행
-	go func() {
-		tx.StartTxListener()
-	}()
+	// // 트랜잭션 리스너를 별도 고루틴에서 실행
+	// go func() {
+	// 	tx.StartTxListener()
+	// }()
 
-	// 트랜잭션 처리 루틴 추가
-	go func() {
-		for txData := range tx.TxChan {
-			tx.PrintPretty(txData) // 예쁘게 출력
+	// // 트랜잭션 처리 루틴 추가
+	// go func() {
+	// 	for txData := range tx.TxChan {
+	// 		tx.PrintPretty(txData) // 예쁘게 출력
 
-			// 여기에 후속 서명/검증 로직 추가 가능
-			// 예: msg := txData["result"].(map[string]interface{})["data"]
-		}
-	}()
+	// 		// 여기에 후속 서명/검증 로직 추가 가능
+	// 		// 예: msg := txData["result"].(map[string]interface{})["data"]
+	// 	}
+	// }()
 
 	// 최초 블록 기준 설정
-	initialHeight := rpc.FetchLatestHeight()
+	initialHeight := rpc.FetchLatestHeightFromKafka()
 	trustedHeight := initialHeight - 10
-	trustedCommit := rpc.FetchCommit(trustedHeight).Result.SignedHeader
+	trustedCommit := rpc.FetchCommitFromKafka(trustedHeight).Result.SignedHeader
 	trustedHash := rpc.DecodeHexHash(trustedCommit.Commit.BlockID.Hash)
 
 	// 라이트 클라이언트 생성
@@ -58,7 +58,7 @@ func main() {
 		lastVerified := trustedHeight
 
 		for range ticker.C {
-			latestHeight := rpc.FetchLatestHeight()
+			latestHeight := rpc.FetchLatestHeightFromKafka()
 
 			// 10블록마다 검증
 			if latestHeight >= lastVerified+10 {
