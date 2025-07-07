@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package cosmos.mymodule.v1beta1;
+
+option go_package = "github.com/cosmos/cosmos-sdk/x/mymodule/types/cosmos/mymodule/v1beta1";
+
+import "google/api/annotations.proto";
+
+service Query {
+  rpc Hello(QueryHelloRequest) returns (QueryHelloResponse) {
+    option (google.api.http).get = "/cosmos/mymodule/v1beta1/hello";
+  }
+}
+
+message QueryHelloRequest {
+  string name = 1;
+}
+
+message QueryHelloResponse {
+  string message = 1;
+}
